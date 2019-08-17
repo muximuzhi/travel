@@ -51,7 +51,7 @@
         </div>
       </div>
 
-      <Table id="t1" border :columns="columns1" :data="data1">
+      <Table id="t1" border :columns="columns1" :data="data1" height="450">
         <template slot-scope="{ row, index }" slot="Action">
           <Button id="b1" size="large" @click="Jump1()">查看详情</Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <Button id="b2" size="large" @click="list(index)">停止预警</Button>
@@ -93,116 +93,6 @@
           <p><span></span></p>
         </div>
       </div>
-
-      <!-- 总类型框 (下拉列表框) -->
-      <div id="u644" class="ax_default droplist" data-label="总类型框">
-        <select id="u644_input">
-          <option value="森林火灾">森林火灾</option>
-          <option selected value="极端天气">极端天气</option>
-        </select>
-      </div>
-
-      <!-- 总类型 (矩形) -->
-      <div id="u645" class="ax_default label" data-label="总类型">
-        <div id="u645_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u646" class="text" style="visibility: visible;">
-          <p><span>类型：</span></p>
-        </div>
-      </div>
-
-      <!-- 时间开始框 (下拉列表框) -->
-      <div id="u647" class="ax_default droplist" data-label="时间开始框">
-        <select id="u647_input">
-          <option selected value="2019-1月">2019-1月</option>
-          <option value="2019-2月">2019-2月</option>
-          <option value="2019-3月">2019-3月</option>
-          <option value="2019-4月">2019-4月</option>
-          <option value="2019-5月">2019-5月</option>
-          <option value="2019-6月">2019-6月</option>
-          <option value="2019-7月">2019-7月</option>
-          <option value="2019-8月">2019-8月</option>
-          <option value="2019-9月">2019-9月</option>
-          <option value="2019-10月">2019-10月</option>
-          <option value="2019-11月">2019-11月</option>
-          <option value="2019-12月">2019-12月</option>
-        </select>
-      </div>
-
-      <!-- 总时间 (矩形) -->
-      <div id="u648" class="ax_default label" data-label="总时间">
-        <div id="u648_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u649" class="text" style="visibility: visible;">
-          <p><span>时间：</span></p>
-        </div>
-      </div>
-
-      <!-- 杠杠 (矩形) -->
-      <div id="u650" class="ax_default label" data-label="杠杠">
-        <div id="u650_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u651" class="text" style="visibility: visible;">
-          <p><span>-</span></p>
-        </div>
-      </div>
-
-      <!-- 状态框 (下拉列表框) -->
-      <div id="u652" class="ax_default droplist" data-label="状态框">
-        <select id="u652_input">
-          <option value="正在预警">正在预警</option>
-          <option value="已停止预警">已停止预警</option>
-          <option selected value="所有预警">所有预警</option>
-        </select>
-      </div>
-
-      <!-- 总状态 (矩形) -->
-      <div id="u653" class="ax_default label" data-label="总状态">
-        <div id="u653_div" class=""></div>
-        <!-- Unnamed () -->
-        <div id="u654" class="text" style="visibility: visible;">
-          <p><span>状态：</span></p>
-        </div>
-      </div>
-
-      <!-- Unnamed (组合) -->
-      <div id="u659" class="ax_default">
-
-        <!-- 筛选框 (矩形) -->
-        <div id="u660" class="ax_default primary_button" data-label="筛选框">
-          <div id="u660_div" class=""></div>
-          <!-- Unnamed () -->
-          <div id="u661" class="text" style="display: none; visibility: hidden">
-            <p><span></span></p>
-          </div>
-        </div>
-
-        <!-- 筛选 (矩形) -->
-        <div id="u662" class="ax_default label" data-label="筛选">
-          <div id="u662_div" class=""></div>
-          <!-- Unnamed () -->
-          <div id="u663" class="text" style="visibility: visible;">
-            <p><span>筛选</span></p>
-          </div>
-        </div>
-      </div>
-      <!-- Unnamed (下拉列表框) -->
-      <div id="u677" class="ax_default droplist">
-        <select id="u677_input">
-          <option selected value="2019-1月">2019-1月</option>
-          <option value="2019-2月">2019-2月</option>
-          <option value="2019-3月">2019-3月</option>
-          <option value="2019-4月">2019-4月</option>
-          <option value="2019-5月">2019-5月</option>
-          <option value="2019-6月">2019-6月</option>
-          <option value="2019-7月">2019-7月</option>
-          <option value="2019-8月">2019-8月</option>
-          <option value="2019-9月">2019-9月</option>
-          <option value="2019-10月">2019-10月</option>
-          <option value="2019-11月">2019-11月</option>
-          <option value="2019-12月">2019-12月</option>
-        </select>
-      </div>
     </div>
   </div>
 </template>
@@ -213,12 +103,12 @@ export default {
       columns1: [
         {
           title: '标题',
-          key: 'number',
+          key: 'title',
           width: 250
         },
         {
           title: '类型',
-          key: 'people',
+          key: 'type',
           width: 250
         },
         {
@@ -228,42 +118,16 @@ export default {
         },
         {
           title: '状态',
-          key: 'state',
+          key: 'status',
           width: 250
         },
         {
           title: '操作',
           slot: 'Action',
-          width: 320
+          width: 300
         }
       ],
-      data1: [
-        {
-          number: 'John Brown',
-          people: 18,
-          time: 'New York No. 1 Lake Park',
-          state: '2016-10-03'
-        },
-        {
-          number: 'John Brown',
-          people: 18,
-          time: 'New York No. 1 Lake Park',
-          state: '2016-10-03'
-        },
-        {
-          number: 'John Brown',
-          people: 18,
-          time: 'New York No. 1 Lake Park',
-          state: '2016-10-03'
-        },
-        {
-          number: 'John Brown',
-          people: 18,
-          time: 'New York No. 1 Lake Park',
-          state: '2016-10-03'
-        }
-      ],
-      total: 1
+      data1: []
     }
   },
   methods: {
@@ -1301,7 +1165,9 @@ export default {
     color:grayText;
   }
   #t1 {
+    position:absolute;
     top:166px;
+
   }
 
 </style>

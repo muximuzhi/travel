@@ -51,13 +51,13 @@
     </div>
 
     <!-- 修改改预案 (矩形) -->
-    <div id="u459" class="ax_default primary_button" data-label="修改改预案">
+    <Button id="u459" class="ax_default primary_button" data-label="修改改预案">
       <div id="u459_div" class=""></div>
       <!-- Unnamed () -->
       <div id="u460" class="text" style="visibility: visible;">
         <p><span>修改该预案</span></p>
       </div>
-    </div>
+    </Button>
 
     <!-- 删除该预案 (矩形) -->
     <div id="u461" class="ax_default primary_button" data-label="删除该预案">
