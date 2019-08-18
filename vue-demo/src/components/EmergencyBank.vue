@@ -143,32 +143,7 @@ export default {
           slot: 'Action'
         }
       ],
-      data1: [
-        {
-          number: 'John Brown',
-          people: 18,
-          time: 'New York No. 1 Lake Park',
-          state: '2016-10-03'
-        },
-        {
-          number: 'John Brown',
-          people: 18,
-          time: 'New York No. 1 Lake Park',
-          state: '2016-10-03'
-        },
-        {
-          number: 'John Brown',
-          people: 18,
-          time: 'New York No. 1 Lake Park',
-          state: '2016-10-03'
-        },
-        {
-          number: 'John Brown',
-          people: 18,
-          time: 'New York No. 1 Lake Park',
-          state: '2016-10-03'
-        }
-      ],
+      data1: [],
       columns2: [
         {
           title: '类型',
@@ -194,14 +169,19 @@ export default {
       edittype: '',
       edittitle: '',
       editplan: '',
-      data2: [{
-        title: '123',
-        type: '321',
-        plan: '555'
-      }],
+      data2: [],
       total: 1
     }
   },
+  created () {
+    this.$axios.get(this.$host + '').then(res => {
+      this.data1 = res.data.data.list
+      this.$axios.get(this.$host + '').then(res => {
+        this.data2 = res.data.data.list
+      })
+    })
+  },
+
   methods: {
     j1 () {
       this.$router.push({
