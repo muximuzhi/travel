@@ -51,48 +51,14 @@
         </div>
       </div>
 
-      <Table id="t1" border :columns="columns1" :data="data1" height="450">
+      <Table id="t1"  border :columns="columns1" :data="data1" height="550">
         <template slot-scope="{ row, index }" slot="Action">
           <Button id="b1" size="large" @click="Jump1()">查看详情</Button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <Button id="b2" size="large" @click="list(index)">停止预警</Button>
         </template>
       </Table>
 
-      <!-- 上一页 (图片) -->
-      <div id="u636" class="ax_default image" data-label="上一页">
-        <img id="u636_img" class="img " src="../images/投诉查询/u71.png"/>
-        <!-- Unnamed () -->
-        <div id="u637" class="text" style="display: none; visibility: hidden">
-          <p><span></span></p>
-        </div>
-      </div>
 
-      <!-- 下一页 (图片) -->
-      <div id="u638" class="ax_default image" data-label="下一页">
-        <img id="u638_img" class="img " src="../images/酒店查询/u215.png"/>
-        <!-- Unnamed () -->
-        <div id="u639" class="text" style="display: none; visibility: hidden">
-          <p><span></span></p>
-        </div>
-      </div>
-
-      <!-- 第一页 (图片) -->
-      <div id="u640" class="ax_default image" data-label="第一页">
-        <img id="u640_img" class="img " src="../images/酒店查询/u217.png"/>
-        <!-- Unnamed () -->
-        <div id="u641" class="text" style="display: none; visibility: hidden">
-          <p><span></span></p>
-        </div>
-      </div>
-
-      <!-- 第二页 (图片) -->
-      <div id="u642" class="ax_default image" data-label="第二页">
-        <img id="u642_img" class="img " src="../images/酒店查询/u219.png"/>
-        <!-- Unnamed () -->
-        <div id="u643" class="text" style="display: none; visibility: hidden">
-          <p><span></span></p>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -129,6 +95,12 @@ export default {
       ],
       data1: []
     }
+  },
+  created () {
+    this.$axios.get(this.$host + '').then(res => {
+      console.log(res)
+      this.data1 = res.data.data.list
+    })
   },
   methods: {
     Jump1 () {

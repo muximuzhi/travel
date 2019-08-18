@@ -74,7 +74,7 @@
       <textarea id="u504_input"></textarea>
     </div>
 
-    <Button id="u508" class="ax_default label" data-label="添加应急人员" >
+    <Button id="u508" class="ax_default label" data-label="添加应急人员" @click="Jump4" >
       <div id="u508_div" class="" @click="Jump1" >添加</div>
     </Button>
 
@@ -83,8 +83,12 @@
         <div id="u513_div" class="" >关闭</div>
       </Button>
 
+    <!-- 保存 (矩形) -->
+    <Button id="baocun" class="ax_default label" data-label="保存" @click="Jump3">
+      <div id="baocun_div" class="" >保存</div>
+    </Button>
 
-    <Table id="t1" border :columns="columns1" :data="data1">
+    <Table id="t1" border :columns="columns1" :data="data2">
       <template slot-scope="{ row, index }" slot="Action">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Button id="b1" size="large" @click="list(index)">删除</Button>
       </template>
@@ -92,7 +96,7 @@
 
     <!--人员下拉框-->
     <Select id="s1"  v-model="model1">
-      <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+      <Option v-for="item in peopleList" :value="item.id" :key="item.id">{{ item.name }}</Option>
     </Select>
   </div>
 
@@ -123,61 +127,27 @@ export default {
           slot: 'Action'
         }
       ],
-      data1: [
-        {
-          number: 'John Brown',
-          people: 18,
-          time: 'New York No. 1 Lake Park',
-          state: '2016-10-03'
-        },
-        {
-          number: 'John Brown',
-          people: 18,
-          time: 'New York No. 1 Lake Park',
-          state: '2016-10-03'
-        },
-        {
-          number: 'John Brown',
-          people: 18,
-          time: 'New York No. 1 Lake Park',
-          state: '2016-10-03'
-        },
-        {
-          number: 'John Brown',
-          people: 18,
-          time: 'New York No. 1 Lake Park',
-          state: '2016-10-03'
-        }
-      ],
-      total: 1,
-      cityList: [
-        {
-          value: 'New York',
-          label: 'New York'
-        },
-        {
-          value: 'London',
-          label: 'London'
-        },
-        {
-          value: 'Sydney',
-          label: 'Sydney'
-        },
-        {
-          value: 'Ottawa',
-          label: 'Ottawa'
-        },
-        {
-          value: 'Paris',
-          label: 'Paris'
-        },
-        {
-          value: 'Canberra',
-          label: 'Canberra'
-        }
-      ],
-      model1: ''
+      data1: [],
+      data2: [],
+      data3: [],
+      peo: [],
+      model1: '',
+      peopleList: []
     }
+  },
+  created () {
+    this.$axios.get(this.$host + '').then(res => {
+      console.log(res)
+      this.data1 = res.data.data.list
+      for (var i in this.data1) {
+        this.$axios.get(this.$host + '?id=' + this.data1[i].id).then(res => {
+          this.data2.push(res.data.data.list)
+          this.$axios.get(this.$host + '').then(res => {
+            this.peopleList = res.data.data.list
+          })
+        })
+      }
+    })
   },
 
   methods: {
@@ -185,6 +155,43 @@ export default {
       this.$router.push({
         name: 'EmergencyBank'
       })
+    },
+    Jump3 () {
+      var value1 = document.getElementById('u494_div').value
+      var value2 = document.getElementById('u496_div').value
+      var value3 = document.getElementById('u498_div').value
+      this.$axios.post(this.$host + '', {
+        type: value1,
+        title: value2,
+        plan: value3
+      }).then(res => {
+        console.log(res)
+        if (res.data.message === '') {
+          for (var i in this.peo) {
+            this.$axios.post(this.$host + '', {
+              time: this.peo[i].time,
+              per_id: this.peo[i].per_id,
+              plan_id: res.data.plan_id
+            }).then(res => {
+              this.$router.push({
+                name: 'EmergencyBank'
+              })
+            })
+          }
+        }
+      })
+    },
+    Jump4 () {
+      if (this.model1 === '') {
+        this.$Message.error('请选择要添加的人')
+      } else {
+        var t = new Date()
+        var p
+        p.time = t
+        p.per_id = this.model1
+        p.plan_id = ''
+        this.peo.push(p)
+      }
     }
   }
 }
@@ -618,6 +625,32 @@ export default {
     left: 420px;
     top: 365px;
     width: 200px;
+  }
+
+  #baocun {
+    position:absolute;
+    left:1075px;
+    top:660px;
+    width:130px;
+    height:38px;
+    font-size:20px;
+    text-align:center;
+  }
+  #baocun_div {
+    position:absolute;
+    left:-8px;
+    top:5px;
+    width:118px;
+    height:24px;
+    background:inherit;
+    background-color:rgba(255, 255, 255, 0);
+    border:none;
+    border-radius:0px;
+    -moz-box-shadow:none;
+    -webkit-box-shadow:none;
+    box-shadow:none;
+    font-size:20px;
+    text-align:center;
   }
 
 </style>

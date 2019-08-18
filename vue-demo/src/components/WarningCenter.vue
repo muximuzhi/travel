@@ -97,7 +97,7 @@
     </div>
 
     <!-- 发布预警按钮 (矩形) -->
-    <Button id="u618" class="ax_default primary_button" data-label="发布预警按钮">
+    <Button id="u618" class="ax_default primary_button" data-label="发布预警按钮" @click="Jump3">
       发布预警
     </Button>
 
@@ -122,58 +122,20 @@
         <option selected value="景区火灾">景区火灾</option>
       </select>
     </div>
-
-    <!-- 月 (下拉列表框) -->
-    <div id="u625" class="ax_default droplist" data-label="月">
-      <select id="u625_input">
-        <option selected value="1月">1月</option>
-        <option value="2月">2月</option>
-        <option value="3月">3月</option>
-        <option value="4月">4月</option>
-        <option value="5月">5月</option>
-        <option value="6月">6月</option>
-        <option value="7月">7月</option>
-      </select>
-    </div>
-
-    <!-- 日 (下拉列表框) -->
-    <div id="u626" class="ax_default droplist" data-label="日">
-      <select id="u626_input">
-        <option selected value="1日">1日</option>
-        <option value="2日">2日</option>
-        <option value="3日">3日</option>
-        <option value="4日">4日</option>
-        <option value="5日">5日</option>
-        <option value="6日">6日</option>
-        <option value="7日">7日</option>
-        <option value="8日">8日</option>
-        <option value="9日">9日</option>
-      </select>
-    </div>
-
-    <!-- 时 (下拉列表框) -->
-    <div id="u627" class="ax_default droplist" data-label="时">
-      <select id="u627_input">
-        <option selected value="01时">01时</option>
-        <option value="02时">02时</option>
-        <option value="03时">03时</option>
-        <option value="04时">04时</option>
-      </select>
-    </div>
-
-    <!-- 分 (下拉列表框) -->
-    <div id="u628" class="ax_default droplist" data-label="分">
-      <select id="u628_input">
-        <option value="01分">01分</option>
-        <option value="02分">02分</option>
-        <option selected value="30分">30分</option>
-      </select>
+    <!--日期选择-->
+    <div id="time1">
+    <DatePicker type="date" placeholder="Select date" v-model="value4"></DatePicker>
     </div>
 
   </div>
 </template>
 <script>
 export default {
+  data () {
+    return {
+      value4: ''
+    }
+  },
   methods: {
     Jump1 () {
       this.$router.push({
@@ -183,6 +145,24 @@ export default {
     Jump2 () {
       this.$router.push({
         name: 'WebmasterCentral'
+      })
+    },
+    Jump3 () {
+      var value1 = document.getElementById('u624_input').value
+      var value2 = document.getElementById('u617_input').value
+      var value3 = document.getElementById('u616_input').value
+      this.$axios.post(this.$host + '', {
+        type: value1,
+        title: value2,
+        plan: value3,
+        time: this.value4
+      }).then(res => {
+        console.log(res)
+        if (res.data.message === '') {
+          this.$router.push({
+            name: '111111'
+          })
+        }
       })
     }
 
@@ -637,7 +617,7 @@ export default {
   }
   #u625 {
     position:absolute;
-    left:629px;
+    left:840px;
     top:439px;
     width:100px;
     height:40px;
@@ -660,7 +640,7 @@ export default {
   }
   #u626 {
     position:absolute;
-    left:736px;
+    left:950px;
     top:439px;
     width:100px;
     height:40px;
@@ -785,5 +765,12 @@ export default {
     width:60px;
     white-space:nowrap;
   }
+  #time1 {
+    position:absolute;
+    width:250px;
+    top: 450px;
+    left: 510px;
+  }
+
 
 </style>

@@ -50,68 +50,18 @@
       </div>
     </div>
 
-    <!-- 修改改预案 (矩形) -->
-    <Button id="u459" class="ax_default primary_button" data-label="修改改预案">
-      <div id="u459_div" class=""></div>
-      <!-- Unnamed () -->
-      <div id="u460" class="text" style="visibility: visible;">
-        <p><span>修改该预案</span></p>
-      </div>
-    </Button>
 
-    <!-- 删除该预案 (矩形) -->
-    <div id="u461" class="ax_default primary_button" data-label="删除该预案">
-      <div id="u461_div" class=""></div>
-      <!-- Unnamed () -->
-      <div id="u462" class="text" style="visibility: visible;">
-        <p><span>删除该预案</span></p>
-      </div>
-    </div>
-
-    <!-- 类型下拉框 (下拉列表框) -->
-    <div id="u463" class="ax_default droplist" data-label="类型下拉框">
-      <select id="u463_input">
-        <option selected value="自然灾害">自然灾害</option>
-        <option value="人为事件">人为事件</option>
-      </select>
-    </div>
-
-    <!-- 类型 (矩形) -->
-    <div id="u464" class="ax_default label" data-label="类型">
-      <div id="u464_div" class=""></div>
-      <!-- Unnamed () -->
-      <div id="u465" class="text" style="visibility: visible;">
-        <p><span>类型</span></p>
-      </div>
-    </div>
 
     <!-- 新增预案按钮 (矩形) -->
     <Button id="u466" class="ax_default primary_button" data-label="新增预案按钮" @click="j1()">
       <div id="u466_div" class="">新增预案</div>
     </Button>
 
-    <!-- 标题下拉框 (下拉列表框) -->
-    <div id="u468" class="ax_default droplist" data-label="标题下拉框">
-      <select id="u468_input">
-        <option selected value="强台风来袭">强台风来袭</option>
-        <option value="森林火灾">森林火灾</option>
-        <option value="暴雨天气">暴雨天气</option>
-      </select>
-    </div>
 
-    <!-- 标题 (矩形) -->
-    <div id="u469" class="ax_default label" data-label="标题">
-      <div id="u469_div" class=""></div>
-      <!-- Unnamed () -->
-      <div id="u470" class="text" style="visibility: visible;">
-        <p><span>标题</span></p>
-      </div>
-    </div>
 
-    <!-- 预案内容框 (多行文本框) -->
-    <div id="u471" class="ax_default text_area" data-label="预案内容框">
-      <textarea id="u471_input"></textarea>
-    </div>
+
+
+
 
     <!-- 预案内容 (矩形) -->
     <div id="u472" class="ax_default label" data-label="预案内容">
@@ -131,12 +81,39 @@
       </div>
     </div>
 
-    <Table id="t1" border :columns="columns1" :data="data1">
+    <Table id="t1" border :columns="columns1" :data="data1" height="200">
       <template slot-scope="{ row, index }" slot="Action">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Button id="b1" size="large" @click="list(index)">删除</Button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Button id="b1" size="large" @click="delpeo(index)">删除</Button>
       </template>
     </Table>
 
+    <Table id="t2" border :columns="columns2" :data="data2" height="200">
+      <template slot-scope="{ row, index }" slot="type">
+        <Input type="text" v-model="edittype" v-if="editIndex === index" />
+        <span v-else>{{ row.type }}</span>
+      </template>
+
+      <template slot-scope="{ row, index }" slot="title">
+        <Input type="text" v-model="edittitle" v-if="editIndex === index" />
+        <span v-else>{{ row.title }}</span>
+      </template>
+
+      <template slot-scope="{ row, index }" slot="plan">
+        <Input type="text" v-model="editplan" v-if="editIndex === index" />
+        <span v-else>{{ row.plan }}</span>
+      </template>
+
+      <template slot-scope="{ row, index }" slot="Action">
+        <div v-if="editIndex === index">
+          <Button size="large" @click="save(index)">保存</Button>
+          <Button size="large" @click="editIndex = -1">取消</Button>
+        </div>
+        <div v-else>
+          <Button size="large" @click="edit(row, index)">修改</Button>
+          <Button size="large" @click="delplan(row, index)">删除</Button>
+        </div>
+      </template>
+    </Table>
 
   </div>
 </template>
@@ -192,6 +169,36 @@ export default {
           state: '2016-10-03'
         }
       ],
+      columns2: [
+        {
+          title: '类型',
+          slot: 'type',
+          width: '150'
+        },
+        {
+          title: '标题',
+          slot: 'title',
+          width: '150'
+        },
+        {
+          title: '内容',
+          slot: 'plan'
+        },
+        {
+          title: '操作',
+          slot: 'Action',
+          width: '90'
+        }
+      ],
+      editIndex: -1,
+      edittype: '',
+      edittitle: '',
+      editplan: '',
+      data2: [{
+        title: '123',
+        type: '321',
+        plan: '555'
+      }],
       total: 1
     }
   },
@@ -205,9 +212,35 @@ export default {
       this.$router.push({
         name: 'EmergencyCenter'
       })
+    },
+    edit (row, index) {
+      this.edittype = row.type
+      this.edittitle = row.title
+      this.editplan = row.plan
+      this.editIndex = index
+    },
+    save (index) {
+      this.data2[index].type = this.edittype
+      this.data2[index].title = this.edittitle
+      this.data2[index].plan = this.editplan
+      this.editIndex = -1
+    },
+    delplan (index) {
+      this.data2.splice(index, 1)
+      this.$axios.post(this.$host + '?id=' + this.data2.id).then(res => {
+        if (res.data.message === '') {
+          this.$Message.info('删除成功')
+        }
+      })
+    },
+    delpeo (index) {
+      this.data1.splice(index, 1)
+      this.$axios.post(this.$host + '?id=' + this.data1.id).then(res => {
+        if (res.data.message === '') {
+          this.$Message.info('删除成功')
+        }
+      })
     }
-
-
   }
 }
 </script>
@@ -688,7 +721,7 @@ export default {
   #u474 {
     position:absolute;
     left:238px;
-    top:420px;
+    top:470px;
     width:81px;
     height:24px;
     font-size:20px;
@@ -907,10 +940,16 @@ export default {
     width:96px;
     word-wrap:break-word;
   }
+
   #t1 {
     left: 235px;
-    top: 400px;
+    top: 450px;
     width: 900px;
   }
 
+  #t2 {
+    left: 235px;
+    top: 0px;
+    width: 900px;
+  }
 </style>
